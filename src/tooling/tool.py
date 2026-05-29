@@ -80,6 +80,6 @@ def bash(command: str, timeout: int) -> str:
         timeout (int): command timeout
     """
     result = subprocess.run(
-        ["sh -c", command], capture_output=True, text=True, timeout=timeout
+        ["sh", "-c", command], capture_output=True, text=True, timeout=timeout
     )
     return result.stdout
