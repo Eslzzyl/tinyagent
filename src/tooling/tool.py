@@ -15,7 +15,9 @@ def read(path: str) -> str:
     else:
         with open(path, mode="r", encoding="utf-8") as f:
             lines = f.readlines()
-            return "\n".join(lines)
+            lines = [f"{index}:{lines[index]}" for index in range(1, len(lines))]
+
+            return "".join(lines)
 
 
 def write(path: str, content: str) -> str:
