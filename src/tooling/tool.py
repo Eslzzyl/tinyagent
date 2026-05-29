@@ -1,4 +1,5 @@
 import os
+import subprocess
 from pathlib import Path
 
 
@@ -68,3 +69,17 @@ def edit(path: str, old_text: str, new_text: str, replace_all: bool = False) -> 
             return "Error: found multiple matches in file. provider more context or set replace_all to true"
         content.replace(old_text, new_text)
         return f"Edited file {path}"
+
+
+def bash(command: str, timeout: int) -> str:
+    """
+    Run shell command.
+
+    Args:
+        command (str): the command to run
+        timeout (int): command timeout
+    """
+    result = subprocess.run(
+        ["sh -c", command], capture_output=True, text=True, timeout=timeout
+    )
+    return result.stdout
