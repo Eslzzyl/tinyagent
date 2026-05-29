@@ -28,7 +28,10 @@ class Agent:
                     name = call.name
                     arguments = call.arguments
                     print(f"Tool: {name}({arguments})")
-                    result = getattr(tool, name)(**arguments)
+                    try:
+                        result = getattr(tool, name)(**arguments)
+                    except Exception as e:
+                        result = f"Error: {e}"
                     messages.append(
                         Message(role=Role.Tool, content=result, tool_call_id=id)
                     )
