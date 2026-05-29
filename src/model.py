@@ -6,7 +6,7 @@ from pydantic import BaseModel
 class ToolCall(BaseModel):
     id: str
     name: str
-    arguments: dict[str, str]
+    arguments: dict
 
 
 class Response(BaseModel):
