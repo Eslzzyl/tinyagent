@@ -1,18 +1,26 @@
+import os
+from pathlib import Path
+
+
 def read(path: str) -> str:
     """
-    read a file from filesystem.
+    Read a file or folder from filesystem. If `path` is a folder, list all contents in it.
 
     Args:
-        path (str) : the file path
+        path (str) : the file or folder path
     """
-    with open(path, mode="r", encoding="utf-8") as f:
-        lines = f.readlines()
-        return "\n".join(lines)
+    _path = Path(path)
+    if _path.is_dir():
+        return "\n".join(os.listdir(_path))
+    else:
+        with open(path, mode="r", encoding="utf-8") as f:
+            lines = f.readlines()
+            return "\n".join(lines)
 
 
 def write(path: str, content: str) -> str:
     """
-    write a file to filesystem.
+    Write a file to filesystem.
 
     Args:
         path (str) : the file path
