@@ -5,7 +5,7 @@ from prompt_toolkit import prompt
 
 from src.agent import Agent
 from src.client import Client
-from src.tool import read, tools, write
+from src.tooling.tool import read, write
 
 load_dotenv()
 
@@ -16,7 +16,7 @@ def main():
         api_key=os.environ["OPENAI_API_KEY"],
         model=os.environ["OPENAI_MODEL_NAME"],
     )
-    agent = Agent(client=client, tools=[read, write], tool_spec_list=tools)
+    agent = Agent(client=client, tools=[read, write])
     request = prompt("Your Message:")
     agent.run(request=request)
 
