@@ -1,6 +1,7 @@
 import os
 
 from dotenv import load_dotenv
+from prompt_toolkit import prompt
 
 from src.agent import Agent
 from src.client import Client
@@ -16,7 +17,7 @@ def main():
         model=os.environ["OPENAI_MODEL_NAME"],
     )
     agent = Agent(client=client, tools=[read, write], tool_spec_list=tools)
-    request = input("Your Message:")
+    request = prompt("Your Message:")
     agent.run(request=request)
 
 
