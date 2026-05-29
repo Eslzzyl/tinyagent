@@ -17,7 +17,7 @@ def generate_tool_schema(func) -> dict:
     # 获取函数签名
     signature = inspect.signature(func)
     # 函数名
-    name = func.__name__
+    func_name = func.__name__
     # raw docstring
     doc = inspect.getdoc(func) or ""
     parsed_doc = parse(doc)
@@ -42,7 +42,7 @@ def generate_tool_schema(func) -> dict:
     return {
         "type": "function",
         "function": {
-            "name": name,
+            "name": func_name,
             "description": description,
             "parameters": {"type": "object", "properties": properties},
             "required": required,
