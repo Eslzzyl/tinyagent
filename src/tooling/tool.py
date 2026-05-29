@@ -48,3 +48,23 @@ def write(path: str, content: str) -> str:
     with open(path, mode="w", encoding="utf-8") as f:
         f.write(content)
     return f"Wrote file {path}"
+
+
+def edit(path: str, old_text: str, new_text: str, replace_all: bool = False) -> str:
+    """
+    Edit a file. replace old_text with new_text.
+
+    Args:
+        path (str) : the file path
+        old_text (str): old content to replace
+        new_text (str): new content
+        replace_all (bool, optional): whether to replace all matches, default to false.
+    """
+    with open(path, mode="w", encoding="utf-8") as f:
+        content = f.read()
+        if content.find(old_text) == -1:
+            return "Error: could not find old_text in file"
+        if not replace_all and content.count(old_text) > 1:
+            return "Error: found multiple matches in file. provider more context or set replace_all to true"
+        content.replace(old_text, new_text)
+        return f"Edited file {path}"
