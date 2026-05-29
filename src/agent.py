@@ -1,0 +1,37 @@
+from typing import Callable
+
+from src import tool
+from src.client import Client
+from src.model import Message, Role
+
+
+class Agent:
+    def __init__(
+        self, client: Client, tools: list[Callable], tool_spec_list: list[dict]
+    ):
+        self.client = client
+        self.tools = tools
+        self.tool_spec_list = tool_spec_list
+
+    def run(self, request: str, max_iterations: int = 10):
+        iteration = 1
+        messages: list[Message] = []
+        messages.append(Message(role=Role.User, content=request))
+        while iteration < max_iterations:
+            response = self.client.call_with_tools(
+                messages=messages, tool_spec_list=self.tool_spec_list
+            )
+            print(f"Assistant: {response.content}")
+            messages.append(Message(role=Role.Assistant, content=response.content))
+            if response.tool_calls:
+                for call in response.tool_calls:
+                    id = call.id
+                    name = call.name
+                    arguments = call.arguments
+                    print(f"Tool: {name}({arguments})")
+                    result = getattr(tool, name)(**arguments)
+                    messages.append(
+                        Message(role=Role.Tool, content=result, tool_call_id=id)
+                    )
+            else:
+                break
